@@ -6,6 +6,17 @@ const port = 4000;
 const cors = require('cors');
 app.use(express.json());
 app.use(cors());
+const helmet = require('helmet');
+app.use(helmet.referrerPolicy({ policy: 'no-referrer-when-downgrade' }));
+app.use(helmet.referrerPolicy({ policy: 'strict-origin' }));
+
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 const contentTypeRouter = require('./src/routes/contentTypeRoutes');
 

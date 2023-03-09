@@ -40,8 +40,8 @@ const getAllContentTypes = async (request, response) => {
 const addContentTypeFields = async (request, response) => {
   try {
     const contentType = await contentTypeServices.addContentTypeFields(
-      
-      request.body.name, request.body.fields
+      request.body.name,
+      request.body.fields
     );
     return response.status(200).json({
       status: 200,
@@ -57,4 +57,31 @@ const addContentTypeFields = async (request, response) => {
   }
 };
 
-module.exports = { addNewContentType, getAllContentTypes, addContentTypeFields };
+const getCollectionFields = async (request, response) => {
+  try {
+    const collectionFields = await contentTypeServices.getCollectionFields(
+      request.body.collectionName
+    );
+    return response.status(200).json({
+      status: 200,
+      data: collectionFields,
+      message: 'Succesfully Retrieved Collection Fields',
+    });
+  } catch (error) {
+    console.log('in the catch block');
+    if (error instanceof HTTPError)
+      return response
+        .status(600)
+        .json({ status: error.code, message: error.message });
+    return response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
+
+
+module.exports = {
+  addNewContentType,
+  getAllContentTypes,
+  addContentTypeFields,
+  getCollectionFields
+};

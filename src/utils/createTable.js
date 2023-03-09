@@ -28,13 +28,14 @@ const createTable = async (tableName, columns) => {
     console.error(
       `Error creating table ${tableName} in ${process.env.DB_NAME}: ${err.message}`
     );
-  } 
+  }
 };
-
 
 async function addColumnsToTable(tableName, fields) {
   try {
-    const query = `ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS ${fields.map(field => `"${field}" TEXT`).join(', ADD COLUMN IF NOT EXISTS ')}`;
+    const query = `ALTER TABLE ${tableName} ADD COLUMN IF NOT EXISTS ${fields
+      .map((field) => `"${field}" TEXT`)
+      .join(', ADD COLUMN IF NOT EXISTS ')}`;
     const result = await pool.query(query);
     console.log(`Columns added to table ${tableName}`);
   } catch (error) {
@@ -42,9 +43,17 @@ async function addColumnsToTable(tableName, fields) {
   }
 }
 
+const getColumnNames = async (tableName) => {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(
+      `SELECT column_name FROM information_schema.columns WHERE table_name = '${tableName}'`
+    );
+    const columnNames = result.rows.map((row) => row.column_name);
+    return columnNames;
+  } finally {
+    client.release();
+  }
+};
 
-
-
-
-
-module.exports = { createTable, addColumnsToTable };
+module.exports = { createTable, addColumnsToTable, getColumnNames };
