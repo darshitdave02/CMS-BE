@@ -57,8 +57,6 @@ const getColumnNames = async (tableName) => {
 };
 
 const getAllDataFromTable = async (tableName) => {
- 
-
   const client = await pool.connect();
 
   try {
@@ -70,4 +68,24 @@ const getAllDataFromTable = async (tableName) => {
   }
 };
 
-module.exports = { createTable, addColumnsToTable, getColumnNames, getAllDataFromTable };
+const addTableEntry = async (tableName, obj) => {
+  try {
+    const columns = Object.keys(obj);
+    const query = {
+      text: `INSERT INTO ${tableName} (${columns.map(col => `"${col}"`).join(', ')}) VALUES (${columns.map((_, i) => `$${i+1}`).join(', ')})`,
+      values: Object.values(obj),
+    };
+    const result = await pool.query(query);
+    console.log(`Successfully added ${JSON.stringify(obj)} to ${tableName}.`);
+  } catch (error) {
+    console.error(`Error adding ${JSON.stringify(obj)} to ${tableName}: ${error}`);
+  }
+};
+
+module.exports = {
+  createTable,
+  addColumnsToTable,
+  getColumnNames,
+  getAllDataFromTable,
+  addTableEntry,
+};

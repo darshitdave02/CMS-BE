@@ -27,13 +27,36 @@ const getCollectionFields = async (request, response) => {
     console.log('in the catch block');
     if (error instanceof HTTPError)
       return response
-        .status(600)
+        .status(500)
         .json({ status: error.code, message: error.message });
     response.status(500).json({ status: 500, message: error.message });
   }
 };
 
+const addCollectionData = async (request, response) => {
+  try {
+    const collectionData = await collectionServices.addCollectionData(
+      request.params.collectionName.toLowerCase(),
+      request.body
+    );
+    response.send({
+      status: 200,
+      data: collectionData,
+      message: 'Succesfully Added Collection Data',
+    });
+  } catch (error) {
+    console.log('in the catch block');
+    if (error instanceof HTTPError)
+      return response
+        .status(500)
+        .json({ status: error.code, message: error.message });
+    response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
+
 module.exports = {
   getCollectionData,
   getCollectionFields,
+  addCollectionData,
 };

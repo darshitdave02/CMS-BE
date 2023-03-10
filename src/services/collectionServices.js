@@ -1,5 +1,5 @@
 const { getAllDataFromTable } = require('../utils/createTable');
-const { getColumnNames } = require('../utils/createTable');
+const { getColumnNames, addTableEntry } = require('../utils/createTable');
 
 const getCollectionData = async (collectionName) => {
   try {
@@ -19,7 +19,19 @@ const getCollectionFields = async (collectionName) => {
   }
 };
 
+const addCollectionData = async (collectionName, data) => {
+  try {
+    const collectionData = await addTableEntry(collectionName, data);
+    return collectionData;
+  } catch (error) {
+    console.log(500, error.message);
+  }
+};
+    
+
+
 module.exports = {
   getCollectionData,
   getCollectionFields,
+  addCollectionData,  
 };
