@@ -54,9 +54,54 @@ const addCollectionData = async (request, response) => {
   }
 };
 
+const deleteCollectionData = async (request, response) => {
+  try {
+    const collectionData = await collectionServices.deleteCollectionData(
+      request.params.collectionName.toLowerCase(),
+      request.body.id
+    );
+    response.send({
+      status: 200,
+      data: collectionData,
+      message: 'Succesfully Deleted Collection Data',
+    });
+  } catch (error) {
+    console.log('in the catch block');
+    if (error instanceof HTTPError)
+      return response
+        .status(500)
+        .json({ status: error.code, message: error.message });
+    response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
+const updateCollectionData = async (request, response) => {
+  try {
+    const collectionData = await collectionServices.updateCollectionData(
+      request.params.collectionName.toLowerCase(),
+      request.body.id,
+      request.body
+    );
+    response.send({
+      status: 200,
+      data: collectionData,
+      message: 'Succesfully Updated Collection Data',
+    });
+  } catch (error) {
+    console.log('in the catch block');
+    if (error instanceof HTTPError)
+      return response
+        .status(500)
+        .json({ status: error.code, message: error.message });
+    response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
 
 module.exports = {
   getCollectionData,
   getCollectionFields,
   addCollectionData,
+  deleteCollectionData,
+  updateCollectionData
 };

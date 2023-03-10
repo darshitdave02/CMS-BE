@@ -57,8 +57,72 @@ const addContentTypeFields = async (request, response) => {
   }
 };
 
+const renameContentType = async (request, response) => {
+  try {
+    const contentType = await contentTypeServices.renameContentType(
+      request.body.name,
+      request.body.newName
+    );
+    return response.status(200).json({
+      status: 200,
+      data: contentType,
+      message: 'Succesfully Renamed Content Type',
+    });
+  } catch (error) {
+    if (error instanceof HTTPError)
+      return response
+        .status(error.code)
+        .json({ status: error.code, message: error.message });
+    return response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
+const renameField = async (request, response) => {
+  try {
+    const contentType = await contentTypeServices.renameContentTypeField(
+      request.body.name.toLowerCase(),
+      request.body.fieldName,
+      request.body.newFieldName
+    );
+    return response.status(200).json({
+      status: 200,
+      data: contentType,
+      message: 'Succesfully Renamed Field',
+    });
+  } catch (error) {
+    if (error instanceof HTTPError)
+      return response
+        .status(error.code)
+        .json({ status: error.code, message: error.message });
+    return response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
+const deleteField = async (request, response) => {
+  try {
+    const contentType = await contentTypeServices.deleteContentTypeField(
+      request.body.name.toLowerCase(),
+      request.body.fieldName
+    );
+    return response.status(200).json({
+      status: 200,
+      data: contentType,
+      message: 'Succesfully Deleted Field',
+    });
+  } catch (error) {
+    if (error instanceof HTTPError)
+      return response
+        .status(error.code)
+        .json({ status: error.code, message: error.message });
+    return response.status(500).json({ status: 500, message: error.message });
+  }
+};
+
 module.exports = {
   addNewContentType,
   getAllContentTypes,
   addContentTypeFields,
+  renameContentType,
+  renameField,
+  deleteField,
 };
