@@ -6,13 +6,24 @@ const userSchema = Joi.object({
 });
 
 const contentTypeSchema = Joi.object({
-    name: Joi.string().min(3).max(50).required(),
-    columns: Joi.object().required(),
+  name: Joi.string().min(3).max(50).required(),
+  columns: Joi.object().required(),
 });
 
 const contentTypeFieldSchema = Joi.object({
   name: Joi.string().min(3).max(50).required(),
   fields: Joi.array().items(Joi.string().min(3).max(50).required()).required(),
+});
+
+const renameContentTypeSchema = Joi.object({
+  name: Joi.string().min(3).max(50).required(),
+  newName: Joi.string().min(3).max(50).required(),
+});
+
+const renameFieldSchema = Joi.object({
+  name: Joi.string().min(3).max(50).required(),
+  fieldName: Joi.string().min(3).max(50).required(),
+  newFieldName: Joi.string().min(3).max(50).required(),
 });
 
 const validateBody = (schema) => {
@@ -25,4 +36,11 @@ const validateBody = (schema) => {
   };
 };
 
-module.exports = { validateBody, userSchema, contentTypeSchema, contentTypeFieldSchema };
+module.exports = {
+  validateBody,
+  userSchema,
+  contentTypeSchema,
+  contentTypeFieldSchema,
+  renameContentTypeSchema,
+  renameFieldSchema,
+};
