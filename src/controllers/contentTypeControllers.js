@@ -57,13 +57,8 @@ const addContentTypeFields = async (request, response) => {
   }
 };
 
-
-
-
-
 module.exports = {
   addNewContentType,
   getAllContentTypes,
   addContentTypeFields,
-  
 };

@@ -16,7 +16,7 @@ const getCollectionData = async (req, res) => {
 const getCollectionFields = async (request, response) => {
   try {
     const collectionFields = await collectionServices.getCollectionFields(
-      request.params.collectionName
+      request.params.collectionName.toLowerCase()
     );
     response.send({
       status: 200,
@@ -29,7 +29,7 @@ const getCollectionFields = async (request, response) => {
       return response
         .status(600)
         .json({ status: error.code, message: error.message });
-    return response.status(500).json({ status: 500, message: error.message });
+    response.status(500).json({ status: 500, message: error.message });
   }
 };
 

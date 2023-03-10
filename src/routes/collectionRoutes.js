@@ -4,7 +4,7 @@ const collectionRouter = express.Router();
 const collectionController = require('../controllers/collectionControllers');
 
 collectionRouter.get('/:collectionName', collectionController.getCollectionData);
-collectionRouter.get('/fields/:collectionName' ,collectionController.getCollectionFields);
+collectionRouter.post('/fields/:collectionName' ,collectionController.getCollectionFields);
 
 
 module.exports = collectionRouter;

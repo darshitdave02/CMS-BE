@@ -1,5 +1,4 @@
 const { getAllDataFromTable } = require('../utils/createTable');
-const HTTPError = require('../utils/HTTPError');
 const { getColumnNames } = require('../utils/createTable');
 
 const getCollectionData = async (collectionName) => {
@@ -7,7 +6,7 @@ const getCollectionData = async (collectionName) => {
     const collectionData = await getAllDataFromTable(collectionName);
     return collectionData;
   } catch (error) {
-    throw new HTTPError(500, error.message);
+    console.log(500, error.message);
   }
 };
 
@@ -16,7 +15,7 @@ const getCollectionFields = async (collectionName) => {
     const columnNames = await getColumnNames(collectionName);
     return columnNames;
   } catch (error) {
-    throw new HTTPError(500, error.message);
+    console.log(500, error.message);
   }
 };
 
