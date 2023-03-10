@@ -31,14 +31,7 @@ const getAllContentTypes = async () => {
   
 };
 
-//use get
-const getCollectionFields = async (collectionName) => {
-  try {
-    const columnNames = await getColumnNames(collectionName);
-    return columnNames;
-  } catch (error) {
-    throw new HTTPError(500, error.message);
-  }
-};
 
-module.exports = { addNewContentType, addContentTypeFields, getAllContentTypes, getCollectionFields };
+
+
+module.exports = { addNewContentType, addContentTypeFields, getAllContentTypes };

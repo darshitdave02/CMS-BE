@@ -19,6 +19,7 @@ app.use(function(req, res, next) {
 });
 
 const contentTypeRouter = require('./src/routes/contentTypeRoutes');
+const collectionRouter = require('./src/routes/collectionRoutes');
 
 const authMiddleware = require('./src/middlewares/authMiddleware');
 
@@ -30,7 +31,8 @@ app.get('/verify/token', authMiddleware.validateToken, (req, res) => {
   res.send('Hello World!');
 });
 
-app.use('/types', authMiddleware.validateToken ,contentTypeRouter);
+app.use('/types', authMiddleware.validateToken, contentTypeRouter);
+app.use('/collections', authMiddleware.validateToken, collectionRouter);
 
 
 

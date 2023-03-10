@@ -49,11 +49,25 @@ const getColumnNames = async (tableName) => {
     const result = await client.query(
       `SELECT column_name FROM information_schema.columns WHERE table_name = '${tableName}'`
     );
-    const columnNames = result.rows.map((row) => row.column_name);
+    const columnNames = await result.rows.map((row) => row.column_name);
     return columnNames;
   } finally {
     client.release();
   }
 };
 
-module.exports = { createTable, addColumnsToTable, getColumnNames };
+const getAllDataFromTable = async (tableName) => {
+ 
+
+  const client = await pool.connect();
+
+  try {
+    const query = `SELECT * FROM ${tableName}`;
+    const result = await client.query(query);
+    return result.rows;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { createTable, addColumnsToTable, getColumnNames, getAllDataFromTable };
