@@ -8,7 +8,7 @@ const validateToken = async (req, res, next) => {
   try {
     console.log(token);
     const request = {
-      baseURL: 'http://localhost:5000',
+      baseURL: 'http://auth-server:5000',
       url: '/validate/token',
       method: 'get',
       headers: {
